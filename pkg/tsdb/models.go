@@ -1,7 +1,6 @@
 package tsdb
 
 import (
-	"github.com/grafana/grafana-plugin-model/go/datasource"
 	"github.com/grafana/grafana/pkg/components/null"
 	"github.com/grafana/grafana/pkg/components/simplejson"
 	"github.com/grafana/grafana/pkg/models"
@@ -27,13 +26,12 @@ type Response struct {
 }
 
 type QueryResult struct {
-	Error       error              `json:"-"`
-	ErrorString string             `json:"error,omitempty"`
-	RefId       string             `json:"refId"`
-	Meta        *simplejson.Json   `json:"meta,omitempty"`
-	Series      TimeSeriesSlice    `json:"series"`
-	Tables      []*Table           `json:"tables"`
-	Frames      *datasource.Frames `json:"frames"`
+	Error       error            `json:"-"`
+	ErrorString string           `json:"error,omitempty"`
+	RefId       string           `json:"refId"`
+	Meta        *simplejson.Json `json:"meta,omitempty"`
+	Series      TimeSeriesSlice  `json:"series"`
+	Tables      []*Table         `json:"tables"`
 }
 
 type TimeSeries struct {

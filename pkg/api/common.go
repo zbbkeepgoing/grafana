@@ -4,12 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/golang/protobuf/jsonpb"
-
-	"github.com/grafana/grafana-plugin-model/go/datasource"
 	m "github.com/grafana/grafana/pkg/models"
 	"github.com/grafana/grafana/pkg/setting"
-	"github.com/grafana/grafana/pkg/tsdb"
 	"gopkg.in/macaron.v1"
 )
 
@@ -128,31 +124,6 @@ func Respond(status int, body interface{}) *NormalResponse {
 		b = t
 	case string:
 		b = []byte(t)
-	case **tsdb.Response:
-		// Handle Frames model
-		res := **t
-		frames := &datasource.Frames{}
-		for _, q := range res.Results {
-			if q.Frames != nil {
-				frames.Frames = append(frames.Frames, q.Frames.Frames...)
-			}
-		}
-		if frames.Frames == nil {
-			if b, err = json.Marshal(body); err != nil {
-				return Error(500, "body json marshal", err)
-			}
-			break
-		}
-
-		// Special protobuf marhsaler for google.protobuf (Well-Known Types)
-		// https://developers.google.com/protocol-buffers/docs/reference/google.protobuf
-		marshaler := jsonpb.Marshaler{}
-		s, err := marshaler.MarshalToString(frames)
-		if err != nil {
-			return Error(500, "body pjson marshal", err)
-		}
-		b = []byte(s)
-
 	default:
 		if b, err = json.Marshal(body); err != nil {
 			return Error(500, "body json marshal", err)

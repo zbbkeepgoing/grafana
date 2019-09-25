@@ -198,10 +198,6 @@ func (tw *DatasourcePluginWrapper) Query(ctx context.Context, ds *models.DataSou
 		}
 		qr.Tables = mappedTables
 
-		if r.Frames != nil {
-			qr.Frames = r.Frames
-		}
-
 		res.Results[r.RefId] = qr
 	}
 

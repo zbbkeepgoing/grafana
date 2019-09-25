@@ -103,9 +103,7 @@ github.com/gobwas/glob/util/runes
 github.com/gobwas/glob/syntax/lexer
 github.com/gobwas/glob/util/strings
 # github.com/golang/protobuf v1.2.0
-github.com/golang/protobuf/jsonpb
 github.com/golang/protobuf/proto
-github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
@@ -116,7 +114,7 @@ github.com/gopherjs/gopherjs/js
 github.com/gorilla/websocket
 # github.com/gosimple/slug v1.4.2
 github.com/gosimple/slug
-# github.com/grafana/grafana-plugin-model v0.0.0-20190914153046-e03e7e48a2ca
+# github.com/grafana/grafana-plugin-model v0.0.0-20190925141336-5d93412845bc
 github.com/grafana/grafana-plugin-model/go/datasource
 github.com/grafana/grafana-plugin-model/go/renderer
 # github.com/hashicorp/go-hclog v0.8.0
