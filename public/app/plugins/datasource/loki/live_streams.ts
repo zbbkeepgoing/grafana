@@ -1,7 +1,7 @@
 import { DataFrame, FieldType, parseLabels, KeyValue, CircularDataFrame } from '@grafana/data';
 import { Observable } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
-import { LokiResponse } from './types';
+import { LokiLegacyResponse } from './types';
 import { finalize, map } from 'rxjs/operators';
 import { appendResponseToBufferedData } from './result_transformer';
 
@@ -25,25 +25,30 @@ export class LiveStreams {
 
   getStream(target: LiveTarget): Observable<DataFrame[]> {
     let stream = this.streams[target.url];
-    if (!stream) {
-      const data = new CircularDataFrame({ capacity: target.size });
-      data.labels = parseLabels(target.query);
-      data.addField({ name: 'ts', type: FieldType.time, config: { title: 'Time' } });
-      data.addField({ name: 'line', type: FieldType.string });
-      data.addField({ name: 'labels', type: FieldType.other });
-      data.addField({ name: 'id', type: FieldType.string });
-
-      stream = webSocket(target.url).pipe(
-        finalize(() => {
-          delete this.streams[target.url];
-        }),
-        map((response: LokiResponse) => {
-          appendResponseToBufferedData(response, data);
-          return [data];
-        })
-      );
-      this.streams[target.url] = stream;
+    if (stream) {
+      return stream;
     }
+
+    const data = new CircularDataFrame({ capacity: target.size });
+    data.labels = parseLabels(target.query);
+    [
+      { name: 'ts', type: FieldType.time, config: { title: 'Time' } },
+      { name: 'line', type: FieldType.string },
+      { name: 'labels', type: FieldType.other },
+      { name: 'id', type: FieldType.string },
+    ].forEach(f => data.addField(f));
+
+    stream = webSocket(target.url).pipe(
+      finalize(() => {
+        delete this.streams[target.url];
+      }),
+      map((response: LokiLegacyResponse) => {
+        appendResponseToBufferedData(response, data);
+        return [data];
+      })
+    );
+    this.streams[target.url] = stream;
+
     return stream;
   }
 }

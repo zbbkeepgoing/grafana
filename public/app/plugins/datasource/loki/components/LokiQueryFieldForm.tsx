@@ -10,9 +10,9 @@ import { SlatePrism, TypeaheadOutput, SuggestionsState, QueryField, TypeaheadInp
 import { Plugin, Node } from 'slate';
 
 // Types
-import { LokiQuery } from '../types';
 import { DOMUtil } from '@grafana/ui';
 import { ExploreQueryFieldProps, AbsoluteTimeRange } from '@grafana/data';
+import { LokiQuery, LokiOptions } from '../types';
 import { Grammar } from 'prismjs';
 import LokiLanguageProvider, { LokiHistoryItem } from '../language_provider';
 import LokiDatasource from '../datasource';
@@ -61,7 +61,7 @@ export interface CascaderOption {
   disabled?: boolean;
 }
 
-export interface LokiQueryFieldFormProps extends ExploreQueryFieldProps<LokiDatasource, LokiQuery> {
+export interface LokiQueryFieldFormProps extends ExploreQueryFieldProps<LokiDatasource, LokiQuery, LokiOptions> {
   history: LokiHistoryItem[];
   syntax: Grammar;
   logLabelOptions: any[];
