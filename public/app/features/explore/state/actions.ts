@@ -84,6 +84,7 @@ import { getTimeSrv, TimeSrv } from '../../dashboard/services/TimeSrv';
 import { preProcessPanelData, runRequest } from '../../dashboard/state/runRequest';
 import { PanelModel } from 'app/features/dashboard/state';
 import { DataSourceSrv } from '@grafana/runtime';
+import { makeExploreItemState } from './reducers';
 
 /**
  * Updates UI state and save it to the URL
@@ -637,6 +638,16 @@ export function splitOpen(): ThunkResult<void> {
     dispatch(splitOpenAction({ itemState }));
     dispatch(stateSave());
   };
+}
+
+export function splitOpenWithUrl(url: string) {
+  const itemState = makeExploreItemState();
+  return splitOpenAction({
+    itemState: {
+      ...itemState,
+      externalUrl: url,
+    },
+  });
 }
 
 /**

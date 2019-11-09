@@ -190,6 +190,11 @@ export interface ExploreItemState {
 
   queryResponse: PanelData;
   originPanelId?: number;
+
+  /**
+   * If set shows this url in an iframe
+   */
+  externalUrl?: string;
 }
 
 export interface ExploreUpdateState {

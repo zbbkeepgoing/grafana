@@ -4,9 +4,11 @@ import { LogLabelStatsModel } from '@grafana/data';
 import { Themeable } from '../../types/theme';
 import { withTheme } from '../../themes/index';
 import { getLogRowStyles } from './getLogRowStyles';
+import { OpenDetailContext } from '../../utils/ui';
 
 //Components
 import { LogLabelStats } from './LogLabelStats';
+import { Button } from '../Button/Button';
 
 export interface Props extends Themeable {
   parsedValue: string;
@@ -98,10 +100,23 @@ class UnThemedLogDetailsRow extends PureComponent<Props, State> {
             links.map(link => {
               return (
                 <span key={link}>
-                  &nbsp;
-                  <a href={link} target={'_blank'}>
-                    <i className={'fa fa-external-link'} />
-                  </a>
+                  <OpenDetailContext.Consumer>
+                    {openDetail => {
+                      return (
+                        <>
+                          &nbsp;
+                          <Button
+                            variant={'transparent'}
+                            size={'sm'}
+                            icon={'fa fa-list'}
+                            onClick={() => {
+                              openDetail({ url: link });
+                            }}
+                          />
+                        </>
+                      );
+                    }}
+                  </OpenDetailContext.Consumer>
                 </span>
               );
             })}
