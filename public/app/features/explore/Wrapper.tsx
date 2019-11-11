@@ -25,7 +25,7 @@ export class Wrapper extends Component<WrapperProps> {
     return (
       <div className="page-scrollbar-wrapper">
         <CustomScrollbar autoHeightMin={'100%'} autoHeightMax={''} className="custom-scrollbar--page">
-          <div className="explore-wrapper">
+          <div style={{ height: '100%' }} className="explore-wrapper">
             <ErrorBoundaryAlert style="page">
               <SplitPane exploreId={ExploreId.left} />
             </ErrorBoundaryAlert>

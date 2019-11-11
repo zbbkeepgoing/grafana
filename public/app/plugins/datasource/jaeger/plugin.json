@@ -1,0 +1,25 @@
+{
+  "type": "datasource",
+  "name": "Jaeger",
+  "id": "jaeger",
+
+  "metrics": false,
+  "alerting": false,
+  "annotations": false,
+  "logs": false,
+  "streaming": false,
+  "tracing": true,
+
+  "info": {
+    "description": "Open source, end-to-end distributed tracing",
+    "author": {
+      "name": "jaegertracing",
+      "url": "https://www.jaegertracing.io"
+    },
+    "logos": {
+      "small": "img/loki_icon.svg",
+      "large": "img/loki_icon.svg"
+    },
+    "links": []
+  }
+}

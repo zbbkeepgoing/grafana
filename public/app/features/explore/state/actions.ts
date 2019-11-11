@@ -517,7 +517,7 @@ export const stateSave = (): ThunkResult<void> => {
       },
     };
     urlStates.left = serializeStateToUrlParam(leftUrlState, true);
-    if (split) {
+    if (split && !right.externalUrl) {
       const rightUrlState: ExploreUrlState = {
         datasource: right.datasourceInstance.name,
         queries: right.queries.map(clearQueryKeys),

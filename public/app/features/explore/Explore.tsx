@@ -274,21 +274,22 @@ export class Explore extends React.PureComponent<ExploreProps> {
 
     return (
       <OpenDetailContext.Provider value={({ url }: OpenDetailOptions) => splitOpenWithUrl(url)}>
-        <div className={exploreClass} ref={this.getRef}>
+        <div style={{ height: '100%', overflow: 'hidden' }} className={exploreClass} ref={this.getRef}>
           <ExploreToolbar exploreId={exploreId} onChangeTime={this.onChangeTime} />
           {datasourceMissing ? this.renderEmptyState() : null}
           {datasourceInstance && (
-            <div className="explore-container">
+            <div style={{ height: '100%' }} className="explore-container">
               <QueryRows exploreEvents={this.exploreEvents} exploreId={exploreId} queryKeys={queryKeys} />
               <ErrorContainer queryErrors={[queryResponse.error]} />
-              <AutoSizer onResize={this.onResize} disableHeight>
+              <AutoSizer style={{ height: '100%' }} onResize={this.onResize} disableHeight>
                 {({ width }) => {
                   if (width === 0) {
                     return null;
                   }
 
+                  console.log({ queryResponse });
                   return (
-                    <main className={`m-t-2 ${styles.logsMain}`} style={{ width }}>
+                    <main className={`m-t-2 ${styles.logsMain}`} style={{ width, height: '100%' }}>
                       <ErrorBoundaryAlert>
                         {showingStartPage && (
                           <div className="grafana-info-box grafana-info-box--max-lg">
@@ -327,6 +328,18 @@ export class Explore extends React.PureComponent<ExploreProps> {
                                 onStartScanning={this.onStartScanning}
                                 onStopScanning={this.onStopScanning}
                               />
+                            )}
+                            {mode === ExploreMode.Tracing && (
+                              <div style={{ height: '100%' }}>
+                                {queryResponse &&
+                                  !!queryResponse.series.length &&
+                                  queryResponse.series[0].fields[0].values.get(0) && (
+                                    <iframe
+                                      style={{ border: 'none', width: '100%', height: '100%' }}
+                                      src={queryResponse.series[0].fields[0].values.get(0)}
+                                    />
+                                  )}
+                              </div>
                             )}
                           </>
                         )}
@@ -390,7 +403,7 @@ function mapStateToProps(state: StoreState, { exploreId }: ExploreProps): Partia
       newMode = supportedModes[0];
     }
   } else {
-    newMode = [ExploreMode.Metrics, ExploreMode.Logs].includes(mode) ? mode : ExploreMode.Metrics;
+    newMode = [ExploreMode.Metrics, ExploreMode.Logs, ExploreMode.Tracing].includes(mode) ? mode : ExploreMode.Metrics;
   }
 
   const initialUI = ui || DEFAULT_UI_STATE;

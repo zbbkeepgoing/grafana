@@ -24,6 +24,7 @@ import TableModel from 'app/core/table_model';
 export enum ExploreMode {
   Metrics = 'Metrics',
   Logs = 'Logs',
+  Tracing = 'Tracing',
 }
 
 export enum ExploreId {
