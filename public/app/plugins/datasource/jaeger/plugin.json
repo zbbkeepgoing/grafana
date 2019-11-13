@@ -13,13 +13,22 @@
   "info": {
     "description": "Open source, end-to-end distributed tracing",
     "author": {
-      "name": "jaegertracing",
-      "url": "https://www.jaegertracing.io"
+      "name": "Grafana Project",
+      "url": "https://grafana.com"
     },
     "logos": {
-      "small": "img/loki_icon.svg",
-      "large": "img/loki_icon.svg"
+      "small": "img/jaeger_logo.svg",
+      "large": "img/jaeger_logo.svg"
     },
-    "links": []
+    "links": [
+      {
+        "name": "Learn more",
+        "url": "https://www.jaegertracing.io"
+      },
+      {
+        "name": "GitHub Project",
+        "url": "https://github.com/jaegertracing/jaeger"
+      }
+    ]
   }
 }
