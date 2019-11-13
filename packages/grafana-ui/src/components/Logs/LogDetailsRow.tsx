@@ -8,7 +8,7 @@ import { OpenDetailContext } from '../../utils/ui';
 
 //Components
 import { LogLabelStats } from './LogLabelStats';
-import { Button } from '../Button/Button';
+import { LinkButton } from '../Button/Button';
 
 export interface Props extends Themeable {
   parsedValue: string;
@@ -105,13 +105,16 @@ class UnThemedLogDetailsRow extends PureComponent<Props, State> {
                       return (
                         <>
                           &nbsp;
-                          <Button
+                          <LinkButton
                             variant={'transparent'}
                             size={'sm'}
                             icon={'fa fa-list'}
-                            onClick={() => {
-                              // openDetail({ url: link });
-                              openDetail({ datasourceId: 'Jaeger', query: parsedValue });
+                            href={link}
+                            onClick={event => {
+                              if (!(event.ctrlKey || event.metaKey || event.shiftKey)) {
+                                event.preventDefault();
+                                openDetail({ datasourceId: 'Jaeger', query: parsedValue });
+                              }
                             }}
                           />
                         </>
