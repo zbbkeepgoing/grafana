@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from 'emotion';
-import { Button, FormField, VariableSuggestion, DataLinkInput, stylesFactory } from '@grafana/ui';
+import { Button, FormField, VariableSuggestion, DataLinkInput, stylesFactory, Switch } from '@grafana/ui';
 import { DerivedFieldConfig } from '../types';
+import DataSourcePicker from '../../../../core/components/Select/DataSourcePicker';
+import { getDatasourceSrv } from '../../../../features/plugins/datasource_srv';
+import { DataSourceSelectItem } from '@grafana/data';
 
 const getStyles = stylesFactory(() => ({
-  firstRow: css`
+  row: css`
     display: flex;
   `,
   nameField: css`
@@ -25,6 +28,7 @@ type Props = {
 export const DerivedField = (props: Props) => {
   const { value, onChange, onDelete, suggestions, className } = props;
   const styles = getStyles();
+  const [hasIntenalLink, setHasInternalLink] = useState(!!value.datasourceName);
 
   const handleChange = (field: keyof typeof value) => (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange({
@@ -33,9 +37,21 @@ export const DerivedField = (props: Props) => {
     });
   };
 
+  const datasources: DataSourceSelectItem[] = getDatasourceSrv()
+    .getExternal()
+    .map(
+      (ds: any) =>
+        ({
+          value: ds.name,
+          name: ds.name,
+          meta: ds.meta,
+        } as DataSourceSelectItem)
+    );
+  const selectedDatasource = value.datasourceName && datasources.find(d => d.name === value.datasourceName);
+
   return (
     <div className={className}>
-      <div className={styles.firstRow}>
+      <div className={styles.row}>
         <FormField
           className={styles.nameField}
           labelWidth={5}
@@ -88,6 +104,35 @@ export const DerivedField = (props: Props) => {
           width: 100%;
         `}
       />
+
+      <div className={styles.row}>
+        <Switch
+          label="Internal link"
+          checked={hasIntenalLink}
+          onChange={() => {
+            if (hasIntenalLink) {
+              onChange({
+                ...value,
+                datasourceName: undefined,
+              });
+            }
+            setHasInternalLink(!hasIntenalLink);
+          }}
+        />
+
+        {hasIntenalLink && (
+          <DataSourcePicker
+            onChange={newValue => {
+              onChange({
+                ...value,
+                datasourceName: newValue.name,
+              });
+            }}
+            datasources={datasources}
+            current={selectedDatasource}
+          />
+        )}
+      </div>
     </div>
   );
 };

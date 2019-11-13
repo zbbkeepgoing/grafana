@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { LogLabelStatsModel } from '@grafana/data';
+import { Field, LinkModel, LogLabelStatsModel } from '@grafana/data';
 
 import { Themeable } from '../../types/theme';
 import { withTheme } from '../../themes/index';
@@ -16,7 +16,7 @@ export interface Props extends Themeable {
   isLabel?: boolean;
   onClickFilterLabel?: (key: string, value: string) => void;
   onClickFilterOutLabel?: (key: string, value: string) => void;
-  links?: string[];
+  links?: Array<LinkModel<Field>>;
   getStats: () => LogLabelStatsModel[] | null;
 }
 
@@ -99,7 +99,7 @@ class UnThemedLogDetailsRow extends PureComponent<Props, State> {
           {links &&
             links.map(link => {
               return (
-                <span key={link}>
+                <span key={link.href}>
                   <OpenDetailContext.Consumer>
                     {openDetail => {
                       return (
@@ -109,11 +109,12 @@ class UnThemedLogDetailsRow extends PureComponent<Props, State> {
                             variant={'transparent'}
                             size={'sm'}
                             icon={'fa fa-list'}
-                            href={link}
+                            href={link.href}
                             onClick={event => {
-                              if (!(event.ctrlKey || event.metaKey || event.shiftKey)) {
+                              if (!(event.ctrlKey || event.metaKey || event.shiftKey) && link.onClick) {
                                 event.preventDefault();
-                                openDetail({ datasourceId: 'Jaeger', query: parsedValue });
+                                link.onClick(event);
+                                // openDetail({ datasourceId: 'Jaeger', query: parsedValue });
                               }
                             }}
                           />

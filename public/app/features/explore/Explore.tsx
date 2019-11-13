@@ -5,7 +5,6 @@ import { css } from 'emotion';
 import { connect } from 'react-redux';
 import { AutoSizer } from 'react-virtualized';
 import memoizeOne from 'memoize-one';
-
 // Services & Utils
 import store from 'app/core/store';
 // Components
@@ -18,38 +17,38 @@ import {
   changeSize,
   initializeExplore,
   modifyQueries,
+  refreshExplore,
   scanStart,
   setQueries,
-  refreshExplore,
-  updateTimeRange,
-  toggleGraph,
-  splitOpenWithUrl,
   splitOpen,
+  splitOpenWithUrl,
+  toggleGraph,
+  updateTimeRange,
 } from './state/actions';
 // Types
 import {
+  AbsoluteTimeRange,
   DataQuery,
-  ExploreStartPageProps,
   DataSourceApi,
+  ExploreStartPageProps,
+  GraphSeriesXY,
   PanelData,
   RawTimeRange,
-  GraphSeriesXY,
   TimeZone,
-  AbsoluteTimeRange,
 } from '@grafana/data';
 import {
-  ExploreItemState,
-  ExploreUrlState,
   ExploreId,
-  ExploreUpdateState,
-  ExploreUIState,
+  ExploreItemState,
   ExploreMode,
+  ExploreUIState,
+  ExploreUpdateState,
+  ExploreUrlState,
 } from 'app/types/explore';
 import { StoreState } from 'app/types';
 import {
-  ensureQueries,
   DEFAULT_RANGE,
   DEFAULT_UI_STATE,
+  ensureQueries,
   getTimeRangeFromUrl,
   lastUsedDatasourceKeyForOrgId,
 } from 'app/core/utils/explore';

@@ -90,7 +90,7 @@ function makeDebugFields(derivedFields: DerivedFieldConfig[], debugText: string)
       try {
         const testMatch = debugText.match(field.matcherRegex);
         const value = testMatch && testMatch[1];
-        let link;
+        let link: LinkModel;
 
         if (field.url && value) {
           link = getLinksFromLogsField(
@@ -103,7 +103,7 @@ function makeDebugFields(derivedFields: DerivedFieldConfig[], debugText: string)
               },
             },
             0
-          )[0];
+          )[0].linkModel;
         }
 
         return {
