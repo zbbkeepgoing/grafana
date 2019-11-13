@@ -24,6 +24,7 @@ import {
   updateTimeRange,
   toggleGraph,
   splitOpenWithUrl,
+  splitOpen,
 } from './state/actions';
 // Types
 import {
@@ -108,6 +109,7 @@ interface ExploreProps {
   queryResponse: PanelData;
   originPanelId: number;
   splitOpenWithUrl: typeof splitOpenWithUrl;
+  splitOpen: typeof splitOpen;
 }
 
 /**
@@ -268,12 +270,21 @@ export class Explore extends React.PureComponent<ExploreProps> {
       queryResponse,
       syncedTimes,
       splitOpenWithUrl,
+      splitOpen,
     } = this.props;
     const exploreClass = split ? 'explore explore-split' : 'explore';
     const styles = getStyles();
 
     return (
-      <OpenDetailContext.Provider value={({ url }: OpenDetailOptions) => splitOpenWithUrl(url)}>
+      <OpenDetailContext.Provider
+        value={(options: OpenDetailOptions) => {
+          if (options.url) {
+            splitOpenWithUrl(options.url);
+          } else {
+            splitOpen(options.datasourceId, options.query);
+          }
+        }}
+      >
         <div style={{ height: '100%', overflow: 'hidden' }} className={exploreClass} ref={this.getRef}>
           <ExploreToolbar exploreId={exploreId} onChangeTime={this.onChangeTime} />
           {datasourceMissing ? this.renderEmptyState() : null}
@@ -287,7 +298,6 @@ export class Explore extends React.PureComponent<ExploreProps> {
                     return null;
                   }
 
-                  console.log({ queryResponse });
                   return (
                     <main className={`m-t-2 ${styles.logsMain}`} style={{ width, height: '100%' }}>
                       <ErrorBoundaryAlert>
@@ -445,6 +455,7 @@ const mapDispatchToProps: Partial<ExploreProps> = {
   updateTimeRange,
   toggleGraph,
   splitOpenWithUrl,
+  splitOpen,
 };
 
 export default hot(module)(

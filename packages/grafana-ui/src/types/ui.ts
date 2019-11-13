@@ -1,3 +1,5 @@
 export type OpenDetailOptions = {
-  url: string;
+  url?: string;
+  datasourceId?: string;
+  query?: string;
 };

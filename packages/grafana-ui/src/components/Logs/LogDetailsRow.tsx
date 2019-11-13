@@ -110,7 +110,8 @@ class UnThemedLogDetailsRow extends PureComponent<Props, State> {
                             size={'sm'}
                             icon={'fa fa-list'}
                             onClick={() => {
-                              openDetail({ url: link });
+                              // openDetail({ url: link });
+                              openDetail({ datasourceId: 'Jaeger', query: parsedValue });
                             }}
                           />
                         </>
