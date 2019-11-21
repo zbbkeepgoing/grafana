@@ -92,7 +92,7 @@
     {
       "path": "appinsights",
       "method": "GET",
-      "url": "https://api.applicationinsights.io",
+      "url": "https://api.applicationinsights.azure.cn",
       "headers": [
         { "name": "X-API-Key", "content": "{{.SecureJsonData.appInsightsApiKey}}" },
         { "name": "x-ms-app", "content": "Grafana" }
@@ -101,14 +101,14 @@
     {
       "path": "workspacesloganalytics",
       "method": "GET",
-      "url": "https://management.azure.com",
+      "url": "https://management.chinacloudapi.cn",
       "tokenAuth": {
-        "url": "https://login.microsoftonline.com/{{.JsonData.logAnalyticsTenantId}}/oauth2/token",
+        "url": "https://login.chinacloudapi.cn/{{.JsonData.logAnalyticsTenantId}}/oauth2/token",
         "params": {
           "grant_type": "client_credentials",
           "client_id": "{{.JsonData.logAnalyticsClientId}}",
           "client_secret": "{{.SecureJsonData.logAnalyticsClientSecret}}",
-          "resource": "https://management.azure.com/"
+          "resource": "https://management.chinacloudapi.cn/"
         }
       },
       "headers": [{ "name": "x-ms-app", "content": "Grafana" }]
@@ -116,14 +116,14 @@
     {
       "path": "loganalyticsazure",
       "method": "GET",
-      "url": "https://api.loganalytics.io/v1/workspaces",
+      "url": "https://api.loganalytics.azure.cn/v1/workspaces",
       "tokenAuth": {
-        "url": "https://login.microsoftonline.com/{{.JsonData.logAnalyticsTenantId}}/oauth2/token",
+        "url": "https://login.chinacloudapi.cn/{{.JsonData.logAnalyticsTenantId}}/oauth2/token",
         "params": {
           "grant_type": "client_credentials",
           "client_id": "{{.JsonData.logAnalyticsClientId}}",
           "client_secret": "{{.SecureJsonData.logAnalyticsClientSecret}}",
-          "resource": "https://api.loganalytics.io"
+          "resource": "https://api.loganalytics.azure.cn"
         }
       },
       "headers": [
@@ -135,14 +135,14 @@
     {
       "path": "sameasloganalyticsazure",
       "method": "GET",
-      "url": "https://api.loganalytics.io/v1/workspaces",
+      "url": "https://api.loganalytics.azure.cn/v1/workspaces",
       "tokenAuth": {
         "url": "https://login.chinacloudapi.cn/{{.JsonData.tenantId}}/oauth2/token",
         "params": {
           "grant_type": "client_credentials",
           "client_id": "{{.JsonData.clientId}}",
           "client_secret": "{{.SecureJsonData.clientSecret}}",
-          "resource": "https://api.loganalytics.io"
+          "resource": "https://api.loganalytics.azure.cn"
         }
       },
       "headers": [
